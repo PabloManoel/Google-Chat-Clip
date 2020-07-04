@@ -15,17 +15,30 @@ changeColor.onclick = function () {
 				code: `
 				// pega lista de datas e box de mensagens referentes aquela data, lista unica de 1 nivel
 				dialogTag = document.getElementsByClassName("SvOPqd")[0].childNodes;
+
+				var currentHeader = '';
+				var response = {};
+				var boxId = 0;
+
 				for (let dialogIndex = 0; dialogIndex < dialogTag.length; dialogIndex++) {
 
 					// classes [A2BXPe n5uYMe pYTmjf mCOR5e] determinam o cabeçalho do dia
 					let headerNode = 'A2BXPe n5uYMe pYTmjf mCOR5e';
 
 					if (dialogTag[dialogIndex].classList.toString() === headerNode){
-						console.log(dialogTag[dialogIndex].textContent);
+						let headerContent = dialogTag[dialogIndex].textContent;
+
+						currentHeader = headerContent;
+						response[headerContent] = {};
+						
 					} else {
-						console.log('box de mensagens');
+						let currentHeaderNode = response[currentHeader];
+						currentHeaderNode[boxId] = "boxContent";
+						boxId++;
 					}					
 				}
+
+				console.log(response);
 			`});
 	});
 };
