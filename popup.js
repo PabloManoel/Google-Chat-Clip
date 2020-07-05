@@ -13,39 +13,45 @@ inputName.addEventListener('input', (event) => {
 	copyToClipBoardButton.classList.remove('btn-outline-success');
 	inputResult.value = '';
 
+	setNameInputToGlobalVariable(inputName.value);
 });
 
 generateJsonButton.onclick = function () {
+
+	chrome.storage.sync.get('name', function (data) {
+		console.log("####" + data.name);
+		userName = data;
+	});
 
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		chrome.tabs.executeScript(
 			tabs[0].id,
 			{ file: "getMessages.js" },
-			onExecuted
+			() => {
+				new Promise(resolve => {
+					chrome.runtime.onMessage.addListener(function listener(response) {
+						chrome.runtime.onMessage.removeListener(listener);
+						bkg.console.log("eventListener")
+						resolve(response.data)
+					});
+				}).then(data => {
+					bkg.console.log("data received from script: " + data);
+					setResultToInputResult(data);
+				})
+			}
 		);
 	});
 };
 
-function onExecuted(result) {
-	globalResult = JSON.stringify(result[0]);
-
-	setResultToGlobalVariable(globalResult);
-
-	setResultToInputResult(globalResult);
+function setNameInputToGlobalVariable(nameInput) {
+	chrome.storage.sync.set({ name: nameInput });
 }
 
-function setResultToGlobalVariable(globalResult) {
-	chrome.storage.local.set({ json: globalResult }, function () {
-		bkg.console.log('globalResult = ' + globalResult);
-	});
+function setResultToInputResult(result) {
+	document.getElementById("inputResultId").value = result;
 }
 
-function setResultToInputResult(result){
-	document.getElementById("inputResultId").value = result;	
-}
-
-
-function updateCopyButtonToClickedText(){
+function updateCopyButtonToClickedText() {
 	copyToClipBoardButton.classList.add('btn-outline-success');
 	copyToClipBoardButton.classList.remove('btn-outline-primary');
 	copyToClipBoardButton.innerText = "Copiado!"
@@ -54,7 +60,7 @@ function updateCopyButtonToClickedText(){
 copyToClipBoardButton.onclick = function setResultToClipBoard() {
 	inputResult.select();
 	document.execCommand('copy');
-	
+
 	updateCopyButtonToClickedText();
 }
 
@@ -62,22 +68,3 @@ function onError(error) {
 	bkg.console.log('>>>>>> onError');
 	console.log(error)
 }
-
-
-
-
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-
-// 	chrome.tabs.executeScript(
-// 		tabs[0].id,
-// 		{ code: "document.body.getElementsByClassName(\"QQodff\")" },
-// 		function (result) {
-// 			bkg.console.log(result);
-// 			// chrome.storage.sync.set({ targetChat: result }, function () {
-// 			// 	bkg.console.log(result);
-// 			// })
-// 			// for (let resultItem of result) {
-// 			// 	bkg.console.log(resultItem);					
-// 			// }
-// 		});
-// });

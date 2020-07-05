@@ -1,54 +1,69 @@
-// pega lista de datas e box de mensagens referentes aquela data, lista unica de 1 nivel
-dialogTag = document.getElementsByClassName("SvOPqd")[0].childNodes;
+var globalUserName = null;
 
-var currentHeader = '';
-var responseIndex = 0;
-var response = {};
-var boxId = 0;
+function executeScript(userName) {
 
-for (let dialogIndex = 0; dialogIndex < dialogTag.length; dialogIndex++) {
+    globalUserName = userName;
 
-    // classes [A2BXPe n5uYMe pYTmjf mCOR5e] determinam o cabeçalho do dia
-    let headerNode = 'A2BXPe n5uYMe pYTmjf mCOR5e';
+    // pega lista de datas e box de mensagens referentes aquela data, lista unica de 1 nivel
+    let chatElement = document.getElementsByClassName("SvOPqd")[0];
+    let chatChildElements = chatElement.childNodes;
 
-    if (dialogTag[dialogIndex].classList.toString() === headerNode) {
-        let headerContent = dialogTag[dialogIndex].textContent;
+    var response = filterUserActivity(chatChildElements);
+    return response;
 
-        currentHeader = headerContent;
-
-    } else {
-        let boxContent = getBoxContent(dialogTag[dialogIndex]);
-        let headerKey = responseIndex.toString().concat(' - ').concat(currentHeader);
-
-        if (!objectIsEmpty(boxContent)) {
-            response[headerKey] = boxContent;
-            responseIndex++;
-        }
-    }
 }
 
-function getBoxContent(box) {
-    // [NAO ALTERAR]: pega a lista de mensagens dentro do box
-    // console.log(box.children[1].children[1].children.length);
+function filterUserActivity(chatChildElements) {
 
-    let profileBoxes = box.getElementsByClassName('oGsu4');
+    let currentDateSeparator = '';
+    let responseIndex = 1;
+    let response = {}
 
-    let boxContent = {}
-    for (let index = 0; index < profileBoxes.length; index++) {
-        // nome e hora: profileBoxes[index].childNodes[0]
-        // mensagem: profileBoxes[index].childNodes[1]
+    chatChildElements.forEach(childElement => {
 
-        let nameAndHour = profileBoxes[index].childNodes[0].textContent;
+        if (isSeparatorElement(childElement)) { // is separatorElement
+            currentDateSeparator = childElement.textContent;
 
-        let time = getTimeFromNameAndHour(nameAndHour);
+        } else { // is chatBox
 
-        let message = profileBoxes[index].childNodes[1].textContent;
+            let usersElement = getUsersElementFromChatBox(childElement);
+            let userMessagesGroup = FilterUsersMessages(usersElement);
+            let headerKey = responseIndex.toString().concat('- ').concat(currentDateSeparator);
 
-        if (nameAndHour.includes("Pablo Manoel")) {
-            boxContent[time] = message;
+            if (!objectIsEmpty(userMessagesGroup)) {
+                response[headerKey] = userMessagesGroup;
+                responseIndex++;
+            }
         }
-    }
-    return boxContent;
+    });
+
+    return response;
+}
+
+function getUsersElementFromChatBox(chatBox) {
+    return Array.from(chatBox.getElementsByClassName('oGsu4'));
+}
+
+function isSeparatorElement(element) {
+    let dateSeparatorClasses = 'A2BXPe n5uYMe pYTmjf mCOR5e';
+    return element.classList.toString() === dateSeparatorClasses
+}
+
+function FilterUsersMessages(usersElement) {
+    let messageGroup = {}
+
+    usersElement.forEach(userElement => {
+
+        let nameAndHour = userElement.childNodes[0].textContent;
+        let time = getTimeFromNameAndHour(nameAndHour);
+        let message = userElement.childNodes[1].textContent;
+
+        if (nameAndHour.includes(globalUserName)) {
+            messageGroup[time] = message;
+        }
+    });
+
+    return messageGroup;
 }
 
 function objectIsEmpty(obj) {
@@ -61,5 +76,30 @@ function getTimeFromNameAndHour(nameAndHour) {
         nameAndHour.split(' ').filter(splitItem => splitItem.includes(':'))[0].replace(',', '');
 }
 
-// console.log(response);
-response;
+// chrome.storage.sync.get(['name'], (data) => {
+//     let response = executeScript(data.name);
+//     console.log('reponse from script' + response);
+
+//     chrome.storage.sync.set({ json: JSON.stringify(response) }, function () {
+//         console.log("script set to global")
+//         console.log(response);
+//     });
+// });
+
+
+var scriptAsPromise = new Promise(function (resolve) {
+    console.log("Promise Block");
+
+    chrome.storage.sync.get(['name'], function (data) {
+        console.log("sync get Block");
+        let result = executeScript(data.name);
+        resolve(JSON.stringify(result))
+    });
+});
+
+scriptAsPromise.then(function (response) {
+    console.log("then Block");
+    chrome.runtime.sendMessage({ data: response })
+});
+
+
