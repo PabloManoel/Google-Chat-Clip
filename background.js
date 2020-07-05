@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(function () {
-	chrome.storage.sync.set({ targetChat: null }, function () {});
+	chrome.storage.sync.set({ json: null }, function () {});
 
 	chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
 		chrome.declarativeContent.onPageChanged.addRules([{

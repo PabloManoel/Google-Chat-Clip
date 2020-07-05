@@ -31,10 +31,10 @@
 
   <div class="row">
     <div class="col-8">
-      <input type="text" placeholder="Insira seu nome...">
+      <input id="inputNameId" type="text" placeholder="Insira seu nome..." onchange="updateCopyButtonToDefaultText">
     </div>
     <div class="col-2">
-      <button class="btn btn-outline-primary btn-sm">Filtrar</button>
+      <button id="generateJsonId" class="btn btn-outline-primary btn-sm">Filtrar</button>
     </div>
   </div>
 
@@ -42,10 +42,10 @@
 
   <div class="row">
     <div class="col-8">
-      <input type="text" readonly placeholder="Filtre para obter o resultado">
+      <input id="inputResultId" type="text" readonly placeholder="Filtre para gerar o json" style="color: gray;">
     </div>
     <div class="col-2">
-      <button class="btn btn-sm btn-outline-primary" id="changeColor">Copiar</button>
+      <button class="btn btn-sm btn-outline-primary" id="copyToClipBoardId">Copiar</button>
     </div>
   </div>
 

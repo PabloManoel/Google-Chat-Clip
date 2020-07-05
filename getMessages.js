@@ -40,11 +40,12 @@ function getBoxContent(box) {
 
         let nameAndHour = profileBoxes[index].childNodes[0].textContent;
 
-        let hour = nameAndHour.split(' ').filter(splitItem => splitItem.includes(':'))[0].replace(',', '');
+        let time = getTimeFromNameAndHour(nameAndHour);
+
         let message = profileBoxes[index].childNodes[1].textContent;
 
-        if (nameAndHour.includes("Mauricio Santos")) {
-            boxContent[hour] = message;
+        if (nameAndHour.includes("Pablo Manoel")) {
+            boxContent[time] = message;
         }
     }
     return boxContent;
@@ -54,5 +55,11 @@ function objectIsEmpty(obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
 }
 
+function getTimeFromNameAndHour(nameAndHour) {
+    return (nameAndHour.includes('minuto') || nameAndHour.includes('hora')) ?
+        "Há".concat(nameAndHour.split(',')[1]) :
+        nameAndHour.split(' ').filter(splitItem => splitItem.includes(':'))[0].replace(',', '');
+}
+
 // console.log(response);
-    response;
+response;

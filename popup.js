@@ -1,12 +1,21 @@
-let changeColor = document.getElementById('changeColor');
-let okid = document.getElementById('okid');
-var bkg = chrome.extension.getBackgroundPage();
-// chrome.storage.sync.get('color', function (data) {
-// 	changeColor.style.backgroundColor = data.color;
-// 	changeColor.setAttribute('value', data.color);
-// });
+var copyToClipBoardButton = document.getElementById('copyToClipBoardId');
+var generateJsonButton = document.getElementById('generateJsonId');
+var inputResult = document.getElementById('inputResultId');
+var inputName = document.getElementById('inputNameId');
 
-changeColor.onclick = function () {
+var okid = document.getElementById('okid');
+var bkg = chrome.extension.getBackgroundPage();
+
+
+inputName.addEventListener('input', (event) => {
+	copyToClipBoardButton.textContent = "Copiar";
+	copyToClipBoardButton.classList.add('btn-outline-primary');
+	copyToClipBoardButton.classList.remove('btn-outline-success');
+	inputResult.value = '';
+
+});
+
+generateJsonButton.onclick = function () {
 
 	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 		chrome.tabs.executeScript(
@@ -18,30 +27,35 @@ changeColor.onclick = function () {
 };
 
 function onExecuted(result) {
+	globalResult = JSON.stringify(result[0]);
 
-	setResultToClipBoard(result[0]);
+	setResultToGlobalVariable(globalResult);
 
+	setResultToInputResult(globalResult);
 }
 
-function setResultToClipBoard(content) {
-
-	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-		chrome.tabs.executeScript(
-			tabs[0].id,
-			{
-				code:
-					
-					' console.log(\'COPIADO!\'); ' /* + 
-					' var textarea = document.createElement("textarea"); ' +
-					' textarea.value = JSON.stringify(${content}); '+ 
-					' textarea.select(); ' +
-					' document.execCommand(\'copy\'); ' */
-			}
-		);
+function setResultToGlobalVariable(globalResult) {
+	chrome.storage.local.set({ json: globalResult }, function () {
+		bkg.console.log('globalResult = ' + globalResult);
 	});
+}
+
+function setResultToInputResult(result){
+	document.getElementById("inputResultId").value = result;	
+}
 
 
+function updateCopyButtonToClickedText(){
+	copyToClipBoardButton.classList.add('btn-outline-success');
+	copyToClipBoardButton.classList.remove('btn-outline-primary');
+	copyToClipBoardButton.innerText = "Copiado!"
+}
 
+copyToClipBoardButton.onclick = function setResultToClipBoard() {
+	inputResult.select();
+	document.execCommand('copy');
+	
+	updateCopyButtonToClickedText();
 }
 
 function onError(error) {
