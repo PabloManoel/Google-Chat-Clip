@@ -48,7 +48,11 @@ function setNameInputToGlobalVariable(nameInput) {
 }
 
 function setResultToInputResult(result) {
-	document.getElementById("inputResultId").value = result;
+	if (objectIsEmpty(JSON.parse(result))) {
+		document.getElementById("inputResultId").value = "Nome não encontrado";
+	} else {
+		document.getElementById("inputResultId").value = result;
+	}
 }
 
 function updateCopyButtonToClickedText() {
@@ -67,4 +71,8 @@ copyToClipBoardButton.onclick = function setResultToClipBoard() {
 function onError(error) {
 	bkg.console.log('>>>>>> onError');
 	console.log(error)
+}
+
+function objectIsEmpty(obj) {
+	return Object.keys(obj).length === 0 && obj.constructor === Object;
 }

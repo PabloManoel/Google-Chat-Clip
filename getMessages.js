@@ -76,17 +76,6 @@ function getTimeFromNameAndHour(nameAndHour) {
         nameAndHour.split(' ').filter(splitItem => splitItem.includes(':'))[0].replace(',', '');
 }
 
-// chrome.storage.sync.get(['name'], (data) => {
-//     let response = executeScript(data.name);
-//     console.log('reponse from script' + response);
-
-//     chrome.storage.sync.set({ json: JSON.stringify(response) }, function () {
-//         console.log("script set to global")
-//         console.log(response);
-//     });
-// });
-
-
 var scriptAsPromise = new Promise(function (resolve) {
     console.log("Promise Block");
 
