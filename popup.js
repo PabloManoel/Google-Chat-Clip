@@ -19,8 +19,29 @@ changeColor.onclick = function () {
 
 function onExecuted(result) {
 
-	bkg.console.log('>>>>>> onExecute');
-	bkg.console.log(JSON.stringify(result[0]));
+	setResultToClipBoard(result[0]);
+
+}
+
+function setResultToClipBoard(content) {
+
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		chrome.tabs.executeScript(
+			tabs[0].id,
+			{
+				code:
+					
+					' console.log(\'COPIADO!\'); ' /* + 
+					' var textarea = document.createElement("textarea"); ' +
+					' textarea.value = JSON.stringify(${content}); '+ 
+					' textarea.select(); ' +
+					' document.execCommand(\'copy\'); ' */
+			}
+		);
+	});
+
+
+
 }
 
 function onError(error) {

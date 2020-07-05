@@ -1,15 +1,56 @@
 <!DOCTYPE html>
 <html>
 
-<body>
-  <input type="text" id="employeeId" name="employeeName" placeholder="nome do colaborador">
-  <br />
-  <br />
-  <button id="okid">OK</button>
-  <br />
-  <br />
-  <button id="changeColor">copiar marcacoes</button>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <style>
+    body {
+      width: max-content;
+    }
+
+    body {
+      border: solid 1px gray;
+      border-radius: 5px;
+      padding: 5px 0px 10px 0px;
+      margin: 5px;
+    }
+
+    .row {
+      margin-left: 0px;
+    }
+  </style>
+</head>
+
+
+<body class="text-center">
+
+  <p class="font-weight-bold text-center">Marcações para JSON</p>
+
+  <div class="row">
+    <div class="col-8">
+      <input type="text" placeholder="Insira seu nome...">
+    </div>
+    <div class="col-2">
+      <button class="btn btn-outline-primary btn-sm">Filtrar</button>
+    </div>
+  </div>
+
+  <hr style="width: 90%; color: gray;" />
+
+  <div class="row">
+    <div class="col-8">
+      <input type="text" readonly placeholder="Filtre para obter o resultado">
+    </div>
+    <div class="col-2">
+      <button class="btn btn-sm btn-outline-primary" id="changeColor">Copiar</button>
+    </div>
+  </div>
+
   <script src="popup.js"></script>
+
 </body>
 
 </html>
