@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajuda com a extensão</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./images/mobi-icon/mobi-icon-128.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./options.css">
+    <script src="https://kit.fontawesome.com/48d13d9cd5.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main>
+        <section class="container">
+            <h1 class="title text-center">Como utilizar o Ponto-Mobicare?</h1>
+            <ol>
+                <li>Acesse o <a href="https://chat.google.com/">Google chat;</a></li>
+                <li>Acesse a sala que é feita a marcação dos pontos;</li>
+                <li>Clique com botão esquerdo no mouse no ícone da extensão, no canto superior direito do seu navegador;
+                </li>
+                <img class="screenshot img-thumbnail img-fluid" src="./images/options/popup.png" alt="imagem do popup">
+                <li>Insira seu nome na primeira caixa de entrada;</li>
+                <img class="screenshot img-thumbnail img-fluid" src="./images/options/popup-name-input.png"
+                    alt="inserindo nome no input do popup">
+                <li>Clique no botão 'Filtrar' para gerar o json das suas marcações;</li>
+                <img class="screenshot img-thumbnail img-fluid" src="./images/options/popup-filter-click.png"
+                    alt="gerando json botão">
+                <li>Clique no botão 'Copiar' para copiar o json gerado para sua área de transferência;</li>
+                <img class="screenshot img-thumbnail img-fluid" src="./images/options/popup-clip-json.png"
+                    alt="gerando json botão">
+            </ol>
+
+            <p>Você também pode formatar o json gerado atraves do site <a
+                    href="https://jsonformatter.org/">jsonformatter.org</a> .</p>
+        </section>
+
+        <hr class="text-center" style="width: 50%;" />
+
+        <section class="container">
+            <h2 class="title text-center">Notas da versão</h2>
+
+            <ul>
+                <li>O script percorre todas as mensagens da sala que foram renderizadas na tela</li>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="screenshot img-thumbnail img-fluid" src="./images/options/button-group-click.gif"
+                            alt="botão-agrupamento">
+                    </div>
+
+                    <div class="col-md-8" style="margin-top: auto; margin-bottom: auto;">
+                        <ul>
+                            <li>As mensagens que estão comprimidas no botão de agrupamento do chat não são
+                                consideradas;</li>
+                            <li>Para registrar o conteúdo agrupado é necessário clicar no botão para expandir as
+                                mensagens;</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <li>Para capturar mensagens mais antigas é necessário subir o histórico do chat até a data desejada;</li>
+                <li>Todas as mensagens do usuário selecionado são registradas pois não há um padrão de marcação.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="text-center">
+
+            <p>Desenvolvido por Pablo Manoel - versão 1.0.0</p>
+
+            <div class="social-media">
+                <a href="https://github.com/PabloManoel/" target="_blank"><i class="fab fa-github social-item"></i></a>
+                <a href="https://www.linkedin.com/in/pablo-manoel/" target="_blank"><i
+                        class="fab fa-linkedin-in social-item"></i></a>
+                <a href="https://medium.com/@pablo.manoel" target="_blank"><i
+                        class="fab fa-medium-m social-item"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

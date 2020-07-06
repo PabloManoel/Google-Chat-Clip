@@ -19,7 +19,6 @@ inputName.addEventListener('input', (event) => {
 generateJsonButton.onclick = function () {
 
 	chrome.storage.sync.get('name', function (data) {
-		console.log("####" + data.name);
 		userName = data;
 	});
 
@@ -31,11 +30,9 @@ generateJsonButton.onclick = function () {
 				new Promise(resolve => {
 					chrome.runtime.onMessage.addListener(function listener(response) {
 						chrome.runtime.onMessage.removeListener(listener);
-						bkg.console.log("eventListener")
 						resolve(response.data)
 					});
 				}).then(data => {
-					bkg.console.log("data received from script: " + data);
 					setResultToInputResult(data);
 				})
 			}
@@ -69,8 +66,7 @@ copyToClipBoardButton.onclick = function setResultToClipBoard() {
 }
 
 function onError(error) {
-	bkg.console.log('>>>>>> onError');
-	console.log(error)
+	bkp.console.log(error)
 }
 
 function objectIsEmpty(obj) {
